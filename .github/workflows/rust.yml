@@ -50,7 +50,7 @@ jobs:
           key: test
           save-if: ${{ github.ref_name == 'main' }}
       - name: Install llvm-cov and nextest
-        uses: taiki-e/install-action@6c6fd71fe4fb72c3697d269963d0e15df8adedad # v2
+        uses: taiki-e/install-action@288e746965032cfcc232e09af2daf5f23c14d780 # v2
         with:
           tool: cargo-llvm-cov,cargo-nextest
       - name: Install runtime dependencies

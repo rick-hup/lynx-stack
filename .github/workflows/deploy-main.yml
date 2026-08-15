@@ -193,14 +193,14 @@ jobs:
           corepack pnpm turbo build --filter !benchx_cli --filter "!@lynx-js/benchmark-*" --summarize
       - name: Select Changesets mode
         id: changesets
-        uses: changesets/action/select-mode@22ccf9aa43179fe9e27dc62e575971d28cce197c # v2.0.0
+        uses: changesets/action/select-mode@198f833dd7d863100ea6e28967bc9a9fdefadb0a # v2.1.0
       - name: Get current date
         if: steps.changesets.outputs.mode == 'version'
         id: date
         run: echo "::set-output name=date::$(date -u +'%Y-%m-%d %H:%M:%S')"
       - name: Version packages
         if: steps.changesets.outputs.mode == 'version'
-        uses: changesets/action/version@22ccf9aa43179fe9e27dc62e575971d28cce197c # v2.0.0
+        uses: changesets/action/version@198f833dd7d863100ea6e28967bc9a9fdefadb0a # v2.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -209,12 +209,12 @@ jobs:
       - name: Pack packages
         if: steps.changesets.outputs.mode == 'publish'
         id: pack
-        uses: changesets/action/pack@22ccf9aa43179fe9e27dc62e575971d28cce197c # v2.0.0
+        uses: changesets/action/pack@198f833dd7d863100ea6e28967bc9a9fdefadb0a # v2.1.0
         with:
           publish-plan-artifact-id: ${{ steps.changesets.outputs.publish-plan-artifact-id }}
       - name: Publish packages
         if: steps.changesets.outputs.mode == 'publish'
-        uses: changesets/action/publish@22ccf9aa43179fe9e27dc62e575971d28cce197c # v2.0.0
+        uses: changesets/action/publish@198f833dd7d863100ea6e28967bc9a9fdefadb0a # v2.1.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pack-dir-artifact-id: ${{ steps.pack.outputs.pack-dir-artifact-id }}
