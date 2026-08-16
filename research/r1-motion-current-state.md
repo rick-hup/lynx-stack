@@ -33,7 +33,7 @@
 | `HTMLElement` / `Element` / `EventTarget` / `NodeList` / `SVGElement` | 空 class 或 `ElementCompt`（Lynx for Web 平台下直接换成 `ElementCompt`）                  |
 | `getComputedStyle(el)`                                                | `__GetComputedStyleByKey(el.element, key)`（Lynx PAPI，经 Proxy 逐 key 取）               |
 | `el.style.setProperty(k, v)`                                          | `MainThread.Element.setStyleProperty(k, v)`（`transform: none` 特判改写为 `scale(1, 1)`） |
-| `el.getBoundingClientRect()`                                          | **假实现**：parse computed style 的 width/height/left/top，`auto`/未设置一律 `            |
+| `el.getBoundingClientRect()`                                          | **假实现**：parse computed style 的 width/height/left/top，`auto`/未设置一律回退为 0      |
 | `performance.now()` / `queueMicrotask`                                | `Date.now()` 兜底 / `lynx.queueMicrotask` 或 Promise 兜底                                 |
 
 要点：`ElementCompt` **没有实现 `element.animate()`（WAAPI）**，所以 motion-dom 的 WAAPI 加速路径不可用，所有元素动画都走 JS 逐帧写 `setStyleProperty`【确认，基于 `src/polyfill/element.ts` 全文无 `animate` 方法】。另外 `src/env_types/papi.d.ts` 声明了原生动画 PAPI `__ElementAnimate`（keyframes + timing + play/pause/cancel），但 `src/` 中**无任何调用**——声明了没接，是潜在的加速路径【确认】。
